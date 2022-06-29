@@ -1,4 +1,4 @@
 import { createReactQueryHooks } from "@trpc/react";
+import { AppRouter } from "../server/routes/app.router";
 
-// TODO: add appRouter to generic
-export const trpc = createReactQueryHooks();
+export const trpc = createReactQueryHooks<AppRouter>();
