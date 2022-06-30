@@ -10,12 +10,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
 }
 
-// TODO: add appRouter to generic
 export default withTRPC<AppRouter>({
   config({ ctx }) {
     const url = process.env.NEXT_PUBLIC_VERCEL_URL
       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/tprc`
-      : "http://localhost:3000/api/tprc";
+      : "http://localhost:3000/api/trpc";
 
     const links = [
       loggerLink(),
