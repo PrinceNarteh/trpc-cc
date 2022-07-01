@@ -9,11 +9,9 @@ export const userRouter = createRouter().mutation("register", {
     const { email, name } = input;
     try {
       const user = await ctx.prisma.user.create({
-        where: {
-          data: {
-            name,
-            email,
-          },
+        data: {
+          email,
+          name,
         },
       });
       return user;
