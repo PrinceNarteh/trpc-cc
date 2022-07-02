@@ -1,25 +1,32 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { CreateUserInput } from "schema/user.schema";
 import { trpc } from "utils/trpc";
 
 const Register = () => {
+  const router = useRouter();
   const { handleSubmit, register } = useForm<CreateUserInput>();
-  const { mutate, error } = trpc.useMutation(["users.register"]);
+  const { mutate, error } = trpc.useMutation(["users.register"], {
+    onSuccess: () => {
+      router.push("/login");
+    },
+  });
 
   const onSubmit = (values: CreateUserInput) => mutate(values);
 
   return (
     <div className="min-h-screen bg-slate-200 flex items-center">
       <div className="shadow-md border w-screen bg-white p-10 space-y-4 max-w-xl mx-auto">
-        <h3 className="text-center text-3xl mb-10">Register</h3>
-        <form onSubmit={handleSubmit(() => {})} className="w-full space-y-8">
+        <h3 className="text-center text-3xl mb-5">Register</h3>
+        {error && <p className="text-red-500">{error.message}</p>}
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-8">
           <div className="relative z-0 w-full mb-6 group">
             <input
               type="text"
               id="name"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-slate-500 focus:outline-none focus:ring-0 focus:border-slate-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-slate-500 focus:outline-none focus:ring-0 focus:border-slate-600 peer"
               placeholder=" "
               required
               {...register("name", { required: true })}
@@ -35,7 +42,7 @@ const Register = () => {
             <input
               type="email"
               id="email"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-slate-500 focus:outline-none focus:ring-0 focus:border-slate-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-slate-500 focus:outline-none focus:ring-0 focus:border-slate-600 peer"
               placeholder=" "
               required
               {...register("email", { required: true })}
