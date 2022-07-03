@@ -3,6 +3,7 @@ import { createRouter } from "server/createRouter";
 import * as trpc from "@trpc/server";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { z } from "zod";
+import { sendLoginEmail } from "utils/mailer";
 
 export const userRouter = createRouter()
   .mutation("register", {
@@ -56,5 +57,12 @@ export const userRouter = createRouter()
           },
         },
       });
+
+      await sendLoginEmail({
+        email,
+        token: "",
+        url: 
+      })
     },
+
   });
