@@ -4,6 +4,8 @@ import * as trpc from "@trpc/server";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { z } from "zod";
 import { sendLoginEmail } from "utils/mailer";
+import { encode } from "utils/base64";
+import { url } from "utils/constants";
 
 export const userRouter = createRouter()
   .mutation("register", {
@@ -60,9 +62,10 @@ export const userRouter = createRouter()
 
       await sendLoginEmail({
         email,
-        token: "",
-        url: 
-      })
-    },
+        token: encode(`${token.id}:${user.email}`),
+        url: url,
+      });
 
+      return true;
+    },
   });
