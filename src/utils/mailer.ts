@@ -25,7 +25,7 @@ export async function sendLoginEmail({
     from: '"John Doe" <john.doe@email.com>',
     to: email,
     subject: "Login to your account",
-    html: `Login by clicking here <a href="${url}/login#token=${token}">${token}</a>`,
+    html: `Login by clicking here <a href="${url}/login#token=${token}">${url}/login#token=${token}</a>`,
   });
 
   console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
