@@ -9,7 +9,7 @@ export type CreateUserInput = z.TypeOf<typeof createUserSchema>;
 
 export const requestOtpSchema = z.object({
   email: z.string().email(),
-  redirect: z.string().default("/"),
+  redirect: z.string().default("/").optional(),
 });
 
 export type RequestOtpInput = z.TypeOf<typeof requestOtpSchema>;

@@ -1,15 +1,24 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { RequestOtpInput } from "schema/user.schema";
+import { trpc } from "utils/trpc";
 
 const Login = () => {
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register } = useForm<RequestOtpInput>();
+  const [success, setSuccess] = useState<boolean>(false);
+  const { data, mutate } = trpc.useMutation(["users.request-otp"], {
+    onSuccess: () => setSuccess(true),
+  });
+
+  const onSubmit = (values: RequestOtpInput) => mutate(values);
 
   return (
     <div className="min-h-screen bg-slate-200 flex items-center">
       <div className="shadow-md border w-screen bg-white p-10 space-y-4 max-w-xl mx-auto">
         <h3 className="text-center text-slate-700 text-3xl mb-10">Login</h3>
-        <form className="w-full space-y-8">
+        {success && <p>Please check your email</p>}
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-8">
           <div className="relative z-0 w-full mb-6 group">
             <input
               type="email"
